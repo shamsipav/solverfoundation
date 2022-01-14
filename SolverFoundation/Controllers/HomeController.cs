@@ -144,6 +144,17 @@ namespace SolverFoundation.Controllers
             // ЦЕЛЕВАЯ ФУНКЦИЯ
             model.AddGoal("goal", GoalKind.Minimize, Model.Sum(Model.ForEach(users, xId => choose[xId] * (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * NaturalGasConsumptionBillingPeriod[xId])));
 
+            // ОГРАНИЧЕНИЯ
+            // По расходу природного газа в целом по цеху
+            model.AddConstraint("Constraint1", Model.Sum(Model.ForEach(users, xId => NaturalGasConsumptionBillingPeriod[xId] * choose[xId])) <= inputData.ReserveNaturalGasConsumptions);
+            // По расходу кокса в целом по цеху
+            model.AddConstraint("Constraint2", Model.Sum(Model.ForEach(users, xId => CokeConsumptiontProjectPeriod[xId] * choose[xId])) <= inputData.CokeReserves);
+            // По объему производства чугуна в целом по цеху
+            model.AddConstraint("Constraint2", Model.Sum(Model.ForEach(users, xId => ChugunProductivityProjectPeriod[xId] * choose[xId])) <= inputData.RequiredChugunProduction);
+            // По расходу природного газа на каждую из печей
+            model.AddConstraint("c_choose", Model.ForEach(users, xId => (min[xId] <= choose[xId] <= max[xId])));
+
+
             return View(inputData);
         }
 
