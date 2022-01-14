@@ -1,0 +1,314 @@
+﻿@model SolverFoundation.Models.InputDataModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<div class="container">
+    <h1>Проверка математической модели оптимизации</h1>
+    <form action="/Home/Result" method="post">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ограничения</button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Настройка параметров</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Наименование показателя, ед. изм.</th>
+                                    <th class="text-center" scope="col">Величина</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        Стоимость кокса, руб/(кг кокса)
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="CostOfCoke" type="text" value=@Model.CostOfCoke>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Стоимость природного газа, руб/(м3 ПГ)
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="CostOfNaturalGas" type="text" value=@Model.CostOfNaturalGas>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Резерв по расходу природного газа в целом по цеху, м3/ч
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="ReserveNaturalGasConsumptions" type="text" value=@Model.ReserveNaturalGasConsumptions>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Запасы кокса по цеху, т/ч
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="CokeReserves" type="text" value=@Model.CokeReserves>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Требуемое производство чугуна в цехе, т/ ч
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="RequiredChugunProduction" type="text" value=@Model.RequiredChugunProduction>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        Условно постоянный коэффициент
+                                    </th>
+                                    <td>
+                                        <input class="form-control" name="KoefCounditionallyConstant" type="text" value=@Model.KoefCounditionallyConstant>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                           
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Технологический параметр, ед. изм</th>
+                    <th class="text-center" scope="col">ДП 1</th>
+                    <th class="text-center" scope="col">ДП 2</th>
+                    <th class="text-center" scope="col">ДП 3</th>
+                    <th class="text-center" scope="col">ДП 4</th>
+                    <th class="text-center" scope="col">ДП 5</th>
+                    <th class="text-center" scope="col">ДП 6</th>
+                    <th class="text-center" scope="col">ДП 7</th>
+                    <th class="text-center" scope="col">ДП 8</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        Расход природного газа в базовом периоде, м3/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].NaturalGasConsumptionBasePeriod" type="text" value=@Model.solverRows[i].NaturalGasConsumptionBasePeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr class="hidden">
+                    <th scope="row">
+                        Расход природного газа в расчетном периоде, м3/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].NaturalGasConsumptionBillingPeriod" type="text" value=@Model.solverRows[i].NaturalGasConsumptionBillingPeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Минимально допустимый расход природного газа, м3/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].MinimumAllowableConsumptionOfNaturalGas" type="text" value=@Model.solverRows[i].MinimumAllowableConsumptionOfNaturalGas>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Максимально допустимый расход природного газа, м3/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].MaximumAllowableConsumptionOfNaturalGas" type="text" value=@Model.solverRows[i].MaximumAllowableConsumptionOfNaturalGas>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Расход кокса в базовом периоде, т/час
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].CokeConsumptionBasePeriod" type="text" value=@Model.solverRows[i].CokeConsumptionBasePeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                @*<tr>
+                    <th scope="row">
+                        Расход кокса в проектном периоде, т/час
+                    </th>
+                </tr>*@
+                <tr>
+                    <th scope="row">
+                        Эквивалент замены кокса в базовом периоде, кг кокса /(м3 ПГ)
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].EquivalentCokeReplacementBasePeriod" type="text" value=@Model.solverRows[i].EquivalentCokeReplacementBasePeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Производительность по чугуну в базовом периоде, т /ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].ChugunProductivityBasePeriod" type="text" value=@Model.solverRows[i].ChugunProductivityBasePeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                @*<tr>
+                    <th scope="row">
+                        Производительность по чугуну в проектном периоде, т /ч
+                    </th>
+                </tr>*@
+                <tr>
+                    <th scope="row">
+                        Содержание S в чугуне в базовом периоде, %
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].SeraContentInChugunBasePeriod" type="text" value=@Model.solverRows[i].SeraContentInChugunBasePeriod>
+                            </td>
+                        }
+                    }
+                </tr>
+                @*<tr>
+                    <th scope="row">
+                        Содержание S в чугуне в проектном периоде, %
+                    </th>
+                </tr>*@
+                <tr>
+                    <th scope="row">
+                        Минимально допустимое [S], %
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].MinimumAllowedSeraContent" type="text" value=@Model.solverRows[i].MinimumAllowedSeraContent>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Максимально допустимое [S], %
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].MaximumAllowedSeraContent" type="text" value=@Model.solverRows[i].MaximumAllowedSeraContent>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Изменение производства чугуна при изменении ПГ, т чуг/(м3 ПГ)
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].KoefChangeChugunProductionChangeNaturalGas" type="text" value=@Model.solverRows[i].KoefChangeChugunProductionChangeNaturalGas>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Изменение производства чугуна при увеличении расхода кокса, т чуг/(кг кокса)
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].KoefChangeChugunProductionIncreaseCokeConsumption" type="text" value=@Model.solverRows[i].KoefChangeChugunProductionIncreaseCokeConsumption>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Изменение [S] при увеличении расхода ПГ на 1 м3/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].KoefChangeSeraIncreaseNaturalGas" type="text" value=@Model.solverRows[i].KoefChangeSeraIncreaseNaturalGas>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Изменение [S] при увеличении расхода кокса на 1 кг/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].KoefChangeSeraIncreaceCokeConsumption" type="text" value=@Model.solverRows[i].KoefChangeSeraIncreaceCokeConsumption>
+                            </td>
+                        }
+                    }
+                </tr>
+                <tr>
+                    <th scope="row">
+                        Изменение [S] при увеличении производительности печи на 1 т чуг/ч
+                    </th>
+                    @{
+                        for (int i = 0; i < Model.solverRows.Length; i++)
+                        {
+                            <td>
+                                <input class="form-control" name="solverRows[@i].KoefChangeSeraIncreaceFurnanceCapacity" type="text" value=@Model.solverRows[i].KoefChangeSeraIncreaceFurnanceCapacity>
+                            </td>
+                        }
+                    }
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary">Рассчитать</button>
+    </form>
+</div>
