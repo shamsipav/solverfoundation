@@ -30,18 +30,17 @@ namespace SolverFoundation.Controllers
         [HttpPost]
         public ActionResult Result(InputDataModel inputData)
         {
-            // Расчетные поля
-            for (int i = 0; i < inputData.solverRows.Length; i++)
-            {
-                var item = inputData.solverRows[i];
-                // Расход кокса в проектном периоде, т/час
-                item.CokeConsumptiontProjectPeriod = (item.CokeConsumptionBasePeriod + 0.001 * (item.NaturalGasConsumptionBasePeriod - item.NaturalGasConsumptionBillingPeriod) * item.EquivalentCokeReplacementBasePeriod);
-                // Производительность по чугуну в проектном периоде, т /ч
-                item.ChugunProductivityProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionChangeNaturalGas - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption + item.ChugunProductivityBasePeriod);
-                // Содержание S в чугуне в проектном периоде, %
-                item.SeraContentInChugunProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption + (item.KoefChangeChugunProductionChangeNaturalGas * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption) * item.KoefChangeSeraIncreaceFurnanceCapacity + item.SeraContentInChugunBasePeriod);
-
-            }
+            //// Расчетные поля
+            //for (int i = 0; i < inputData.solverRows.Length; i++)
+            //{
+            //    var item = inputData.solverRows[i];
+            //    // Расход кокса в проектном периоде, т/час
+            //    item.CokeConsumptiontProjectPeriod = (item.CokeConsumptionBasePeriod + 0.001 * (item.NaturalGasConsumptionBasePeriod - item.NaturalGasConsumptionBillingPeriod) * item.EquivalentCokeReplacementBasePeriod);
+            //    // Производительность по чугуну в проектном периоде, т /ч
+            //    item.ChugunProductivityProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionChangeNaturalGas - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption + item.ChugunProductivityBasePeriod);
+            //    // Содержание S в чугуне в проектном периоде, %
+            //    item.SeraContentInChugunProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption + (item.KoefChangeChugunProductionChangeNaturalGas * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption) * item.KoefChangeSeraIncreaceFurnanceCapacity + item.SeraContentInChugunBasePeriod);
+            //}
 
             List<SolverRow> solverList = new List<SolverRow>();
 
@@ -63,8 +62,8 @@ namespace SolverFoundation.Controllers
             Parameter NaturalGasConsumptionBasePeriod = new Parameter(Domain.Real, "NaturalGasConsumptionBasePeriod", users);
             NaturalGasConsumptionBasePeriod.SetBinding(solverList, "NaturalGasConsumptionBasePeriod", "xId");
             // Расход природного газа в расчетном периоде, м3/ ч
-            Parameter NaturalGasConsumptionBillingPeriod = new Parameter(Domain.Real, "NaturalGasConsumptionBillingPeriod", users);
-            NaturalGasConsumptionBillingPeriod.SetBinding(solverList, "NaturalGasConsumptionBillingPeriod", "xId");
+            //Parameter NaturalGasConsumptionBillingPeriod = new Parameter(Domain.Real, "NaturalGasConsumptionBillingPeriod", users);
+            //NaturalGasConsumptionBillingPeriod.SetBinding(solverList, "NaturalGasConsumptionBillingPeriod", "xId");
             // Минимально допустимый расход природного газа, м3/ч
             Parameter MinimumAllowableConsumptionOfNaturalGas = new Parameter(Domain.Real, "MinimumAllowableConsumptionOfNaturalGas", users);
             MinimumAllowableConsumptionOfNaturalGas.SetBinding(solverList, "MinimumAllowableConsumptionOfNaturalGas", "xId");
@@ -77,7 +76,7 @@ namespace SolverFoundation.Controllers
             // Расход кокса в проектном периоде, т/час
             Parameter CokeConsumptiontProjectPeriod = new Parameter(Domain.Real, "CokeConsumptiontProjectPeriod", users);
             CokeConsumptiontProjectPeriod.SetBinding(solverList, "CokeConsumptiontProjectPeriod", "xId");
-            // Эквивалент замены кокса в базовом периоде, кг кокса /(м3 ПГ)
+            // Эквивалент замены кокса в базовом периоде, кг кокса / (м3 ПГ)
             Parameter EquivalentCokeReplacementBasePeriod = new Parameter(Domain.Real, "EquivalentCokeReplacementBasePeriod", users);
             EquivalentCokeReplacementBasePeriod.SetBinding(solverList, "EquivalentCokeReplacementBasePeriod", "xId");
             // Производительность по чугуну в базовом периоде, т /ч
@@ -103,7 +102,7 @@ namespace SolverFoundation.Controllers
             // Изменение производства чугуна при изменении ПГ, т чуг/(м3 ПГ)
             Parameter KoefChangeChugunProductionChangeNaturalGas = new Parameter(Domain.Real, "KoefChangeChugunProductionChangeNaturalGas", users);
             KoefChangeChugunProductionChangeNaturalGas.SetBinding(solverList, "KoefChangeChugunProductionChangeNaturalGas", "xId");
-            // Изменение производства чугуна при увеличении расхода кокса, т чуг/(кг кокса)
+            // Изменение производства чугуна при увеличении расхода кокса, т чуг/ (кг кокса)
             Parameter KoefChangeChugunProductionIncreaseCokeConsumption = new Parameter(Domain.Real, "KoefChangeChugunProductionIncreaseCokeConsumption", users);
             KoefChangeChugunProductionIncreaseCokeConsumption.SetBinding(solverList, "KoefChangeChugunProductionIncreaseCokeConsumption", "xId");
             // Изменение[S] при увеличении расхода ПГ на 1 м3/ч
@@ -118,7 +117,6 @@ namespace SolverFoundation.Controllers
 
             model.AddParameters(
                 NaturalGasConsumptionBasePeriod,
-                NaturalGasConsumptionBillingPeriod,
                 MinimumAllowableConsumptionOfNaturalGas,
                 MaximumAllowableConsumptionOfNaturalGas,
                 CokeConsumptionBasePeriod,
@@ -138,22 +136,50 @@ namespace SolverFoundation.Controllers
             );
 
             // РЕШЕНИЕ
-            Decision choose = new Decision(Domain.RealNonnegative, "choose", users);
-            model.AddDecision(choose);
+            Decision naturalGasConsumptionBillingPeriod = new Decision(Domain.RealNonnegative, "naturalGasConsumptionBillingPeriod", users);
+            model.AddDecision(naturalGasConsumptionBillingPeriod);
 
             // ЦЕЛЕВАЯ ФУНКЦИЯ
-            model.AddGoal("goal", GoalKind.Minimize, Model.Sum(Model.ForEach(users, xId => choose[xId] * (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * NaturalGasConsumptionBillingPeriod[xId])));
+            model.AddGoal("goal", GoalKind.Minimize, Model.Sum(Model.ForEach(users, xId => (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * naturalGasConsumptionBillingPeriod[xId])));
 
             // ОГРАНИЧЕНИЯ
             // По расходу природного газа в целом по цеху
-            model.AddConstraint("Constraint1", Model.Sum(Model.ForEach(users, xId => NaturalGasConsumptionBillingPeriod[xId] * choose[xId])) <= inputData.ReserveNaturalGasConsumptions);
+            model.AddConstraint("Constraint1", Model.Sum(Model.ForEach(users, xId => naturalGasConsumptionBillingPeriod[xId])) <= inputData.ReserveNaturalGasConsumptions);
             // По расходу кокса в целом по цеху
-            model.AddConstraint("Constraint2", Model.Sum(Model.ForEach(users, xId => CokeConsumptiontProjectPeriod[xId] * choose[xId])) <= inputData.CokeReserves);
+            model.AddConstraint("Constraint2", Model.Sum(Model.ForEach(users, xId => (CokeConsumptionBasePeriod[xId] + 0.001 * (NaturalGasConsumptionBasePeriod[xId] - naturalGasConsumptionBillingPeriod[xId]) * EquivalentCokeReplacementBasePeriod[xId]))) <= inputData.CokeReserves);
             // По объему производства чугуна в целом по цеху
-            model.AddConstraint("Constraint2", Model.Sum(Model.ForEach(users, xId => ChugunProductivityProjectPeriod[xId] * choose[xId])) <= inputData.RequiredChugunProduction);
+            model.AddConstraint("Constraint3", Model.Sum(Model.ForEach(users, xId => ((naturalGasConsumptionBillingPeriod[xId] - NaturalGasConsumptionBasePeriod[xId]) * KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * (naturalGasConsumptionBillingPeriod[xId] - NaturalGasConsumptionBasePeriod[xId]) * KoefChangeChugunProductionIncreaseCokeConsumption[xId] + ChugunProductivityBasePeriod[xId]))) <= inputData.RequiredChugunProduction);
             // По расходу природного газа на каждую из печей
-            model.AddConstraint("c_choose", Model.ForEach(users, xId => (min[xId] <= choose[xId] <= max[xId])));
+            model.AddConstraint("Constraint4", Model.ForEach(users, xId => (MinimumAllowableConsumptionOfNaturalGas[xId] <= naturalGasConsumptionBillingPeriod[xId] <= MaximumAllowableConsumptionOfNaturalGas[xId])));
+            // По содержанию серы в чугуне на каждую из печей
+            //model.AddConstraint("Constraint5", Model.ForEach(users, xId => (MinimumAllowedSeraContent[xId] <= SeraContentInChugunProjectPeriod[xId] <= MaximumAllowedSeraContent[xId])));
 
+            Solution solution = context.Solve();
+            Report report = solution.GetReport();
+
+            double[] nums = new double[8];
+            // Расчетные поля
+            for (int i = 0; i < solverList.Count; i++)
+            {
+                var item = inputData.solverRows[i];
+
+                //item.NaturalGasConsumptionBillingPeriod = naturalGasConsumptionBillingPeriod.GetDouble(solverList[i].xId);
+                item.NaturalGasConsumptionBillingPeriod = naturalGasConsumptionBillingPeriod.GetDouble(solverList[i].xId);
+                //item.CokeConsumptiontProjectPeriod = CokeConsumptiontProjectPeriod.GetDouble(solverList[i].xId);
+                //nums[i] = naturalGasConsumptionBillingPeriod.GetDouble(solverList[i].xId);
+            }
+
+            // Расчетные поля
+            for (int i = 0; i < inputData.solverRows.Length; i++)
+            {
+                var item = inputData.solverRows[i];
+                // Расход кокса в проектном периоде, т/час
+                item.CokeConsumptiontProjectPeriod = (item.CokeConsumptionBasePeriod + 0.001 * (item.NaturalGasConsumptionBasePeriod - item.NaturalGasConsumptionBillingPeriod) * item.EquivalentCokeReplacementBasePeriod);
+                // Производительность по чугуну в проектном периоде, т /ч
+                item.ChugunProductivityProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionChangeNaturalGas - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption + item.ChugunProductivityBasePeriod);
+                // Содержание S в чугуне в проектном периоде, %
+                item.SeraContentInChugunProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption + (item.KoefChangeChugunProductionChangeNaturalGas * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption) * item.KoefChangeSeraIncreaceFurnanceCapacity + item.SeraContentInChugunBasePeriod);
+            }
 
             return View(inputData);
         }
