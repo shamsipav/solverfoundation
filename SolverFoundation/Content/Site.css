@@ -26,3 +26,59 @@ textarea {
 .project {
     background-color: #d1e7dd;
 }
+
+.container-custom {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.heading {
+    margin: 0px 0px 25px 0px;
+}
+
+.description {
+    margin: 0px 0px 15px 0px;
+}
+
+.btn-const {
+    margin: 0px 0px 15px 0px;
+}
+
+.lock {
+    background-color: lightgray;
+    user-select: none;
+}
+
+.main-table td.error {
+    position: relative;
+    background-color: #ffd05b;
+}
+
+    .main-table td.error::before {
+        position: absolute;
+        content: "Значение поля не может быть пустым";
+        background-color: #ffd05b;
+        top: 9px;
+        left: 105%;
+        width: max-content;
+        padding: 3px;
+        font-size: 11px;
+        z-index: 2;
+    }
+
+.main-table td.same-error {
+    position: relative;
+    background-color: #ff795b;
+}
+
+    .main-table td.same-error::before {
+        position: absolute;
+        content: "Некорректное значение поля";
+        background-color: #ff795b;
+        top: 9px;
+        left: 105%;
+        width: max-content;
+        padding: 3px;
+        font-size: 11px;
+        z-index: 2;
+    }

@@ -1,9 +1,9 @@
 ﻿@model SolverFoundation.Models.InputDataModel
 @{
-    ViewBag.Title = "Result Page";
+    ViewBag.Title = "Результаты";
 }
-<div class="container">
-    <h1>Результат проверки математической модели оптимизации</h1>
+<div class="result">
+    <h1 class="heading">Результат проверки математической модели оптимизации</h1>
     <table class="table">
         <thead>
             <tr>
@@ -16,6 +16,8 @@
                 <th class="text-center" scope="col">ДП 6</th>
                 <th class="text-center" scope="col">ДП 7</th>
                 <th class="text-center" scope="col">ДП 8</th>
+                <th class="text-center" scope="col">Сумма</th>
+                <th class="text-center" scope="col">Ограничение</th>
             </tr>
         </thead>
         <tbody>
@@ -29,16 +31,22 @@
                         <td>@Model.solverRows[i].NaturalGasConsumptionBasePeriod</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr class="project">
                 <th scope="row">
                     Расход природного газа в расчетном периоде, м3/ч
                 </th>
                 @{
+                    double NaturalGasSumm = 0;
                     for (int i = 0; i < Model.solverRows.Length; i++)
                     {
-                        <td>@Model.solverRows[i].NaturalGasConsumptionBillingPeriod</td>
+                        NaturalGasSumm += Model.solverRows[i].NaturalGasConsumptionBillingPeriod;
+                        <td>@Math.Round(Model.solverRows[i].NaturalGasConsumptionBillingPeriod, 3)</td>
                     }
+                    <td>@Math.Round(NaturalGasSumm, 3)</td>
+                    <td><=@Model.ReserveNaturalGasConsumptions</td>
                 }
             </tr>
             <tr>
@@ -51,6 +59,8 @@
                         <td>@Model.solverRows[i].MinimumAllowableConsumptionOfNaturalGas</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -62,6 +72,8 @@
                         <td>@Model.solverRows[i].MaximumAllowableConsumptionOfNaturalGas</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -73,16 +85,22 @@
                         <td>@Model.solverRows[i].CokeConsumptionBasePeriod</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr class="project">
                 <th scope="row">
                     Расход кокса в проектном периоде, т/час
                 </th>
                 @{
+                    double CokeConsumptionSumm = 0;
                     for (int i = 0; i < Model.solverRows.Length; i++)
                     {
-                        <td>@Model.solverRows[i].CokeConsumptiontProjectPeriod</td>
+                        CokeConsumptionSumm += Model.solverRows[i].CokeConsumptiontProjectPeriod;
+                        <td>@Math.Round(Model.solverRows[i].CokeConsumptiontProjectPeriod, 3)</td>
                     }
+                    <td>@Math.Round(CokeConsumptionSumm, 3)</td>
+                    <td><=@Model.CokeReserves</td>
                 }
             </tr>
             <tr>
@@ -95,6 +113,8 @@
                         <td>@Model.solverRows[i].EquivalentCokeReplacementBasePeriod</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -106,16 +126,22 @@
                         <td>@Model.solverRows[i].ChugunProductivityBasePeriod</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr class="project">
                 <th scope="row">
                     Производительность по чугуну в проектном периоде, т /ч
                 </th>
                 @{
+                    double ChugunProductivitySumm = 0;
                     for (int i = 0; i < Model.solverRows.Length; i++)
                     {
-                        <td>@Model.solverRows[i].ChugunProductivityProjectPeriod</td>
+                        ChugunProductivitySumm += Model.solverRows[i].ChugunProductivityProjectPeriod;
+                        <td>@Math.Round(Model.solverRows[i].ChugunProductivityProjectPeriod, 3)</td>
                     }
+                    <td>@Math.Round(ChugunProductivitySumm, 3)</td>
+                    <td>>=@Model.RequiredChugunProduction</td>
                 }
             </tr>
             <tr>
@@ -128,6 +154,8 @@
                         <td>@Model.solverRows[i].SeraContentInChugunBasePeriod</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr class="project">
                 <th scope="row">
@@ -136,9 +164,11 @@
                 @{
                     for (int i = 0; i < Model.solverRows.Length; i++)
                     {
-                        <td>@Model.solverRows[i].SeraContentInChugunProjectPeriod</td>
+                        <td>@Math.Round(Model.solverRows[i].SeraContentInChugunProjectPeriod, 3)</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -150,6 +180,8 @@
                         <td>@Model.solverRows[i].MinimumAllowedSeraContent</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -161,6 +193,8 @@
                         <td>@Model.solverRows[i].MaximumAllowedSeraContent</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -172,6 +206,8 @@
                         <td>@Model.solverRows[i].KoefChangeChugunProductionChangeNaturalGas</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -183,6 +219,8 @@
                         <td>@Model.solverRows[i].KoefChangeChugunProductionIncreaseCokeConsumption</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -194,6 +232,8 @@
                         <td>@Model.solverRows[i].KoefChangeSeraIncreaseNaturalGas</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -205,6 +245,8 @@
                         <td>@Model.solverRows[i].KoefChangeSeraIncreaceCokeConsumption</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">
@@ -216,6 +258,8 @@
                         <td>@Model.solverRows[i].KoefChangeSeraIncreaceFurnanceCapacity</td>
                     }
                 }
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>

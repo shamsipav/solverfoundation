@@ -1,12 +1,14 @@
 ﻿@model SolverFoundation.Models.InputDataModel
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Главная";
 }
-<div class="container">
-    <h1>Проверка математической модели оптимизации</h1>
-    <form action="/Home/Result" method="post">
+<div class="index">
+    <h1 class="heading">Проверка математической модели оптимизации</h1>
+    <p class="description">Программное обеспечение системы распределения природного газа в группе доменных печей (эффективность использования газа)</p>
+    <p class="description">Необходимо распределить подачу природного газа между печами доменного цеха таким образом, чтобы при существующих ограничениях была достигнута максимальная эффективность его использования в целом по цеху.</p>
+    <form class="main-form" action="/Home/Result" method="post">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ограничения</button>
+        <button type="button" class="btn btn-primary btn-const" data-toggle="modal" data-target="#myModal">Ограничения</button>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -17,7 +19,7 @@
                         <h4 class="modal-title" id="myModalLabel">Настройка параметров</h4>
                     </div>
                     <div class="modal-body">
-                        <table class="table">
+                        <table class="table main-table">
                             <thead>
                                 <tr>
                                     <th scope="col">Наименование показателя, ед. изм.</th>
@@ -82,7 +84,7 @@
                 </div>
             </div>
         </div>
-        <table class="table">
+        <table class="table main-table">
             <thead>
                 <tr>
                     <th scope="col">Технологический параметр, ед. изм</th>
@@ -322,6 +324,6 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn btn-primary">Рассчитать</button>
+        <button class="btn btn-primary" id="submitButton">Рассчитать</button>
     </form>
 </div>
