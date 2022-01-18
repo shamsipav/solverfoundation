@@ -82,3 +82,15 @@ textarea {
         font-size: 11px;
         z-index: 2;
     }
+
+#chart_div {
+    width: 1170px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+#bar_div {
+    width: 1170px;
+    height: 500px;
+    margin: 0 auto;
+}
