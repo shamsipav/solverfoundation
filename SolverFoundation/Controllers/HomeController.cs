@@ -120,7 +120,7 @@ namespace SolverFoundation.Controllers
             model.AddDecision(naturalGasConsumptionBillingPeriod);
 
             // ЦЕЛЕВАЯ ФУНКЦИЯ
-            model.AddGoal("goal", GoalKind.Minimize, Model.Sum(Model.ForEach(users, xId => (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * naturalGasConsumptionBillingPeriod[xId])));
+            model.AddGoal("goal", GoalKind.Maximize, Model.Sum(Model.ForEach(users, xId => (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * naturalGasConsumptionBillingPeriod[xId])));
 
             // ОГРАНИЧЕНИЯ
             // По расходу природного газа в целом по цеху
