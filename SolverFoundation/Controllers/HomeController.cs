@@ -120,6 +120,7 @@ namespace SolverFoundation.Controllers
             model.AddDecision(naturalGasConsumptionBillingPeriod);
 
             // ЦЕЛЕВАЯ ФУНКЦИЯ
+            //model.AddGoal("goal", GoalKind.Maximize, Model.Sum(Model.ForEach(users, xId => (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * naturalGasConsumptionBillingPeriod[xId])));
             model.AddGoal("goal", GoalKind.Maximize, Model.Sum(Model.ForEach(users, xId => (0.5 * (EquivalentCokeReplacementBasePeriod[xId] * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (KoefChangeChugunProductionChangeNaturalGas[xId] - EquivalentCokeReplacementBasePeriod[xId] * KoefChangeChugunProductionIncreaseCokeConsumption[xId])) * naturalGasConsumptionBillingPeriod[xId])));
 
             // ОГРАНИЧЕНИЯ
@@ -144,6 +145,8 @@ namespace SolverFoundation.Controllers
                 item.NaturalGasConsumptionBillingPeriod = naturalGasConsumptionBillingPeriod.GetDouble(solverList[i].xId);
             }
 
+            double test = 0;
+            double summ = 0;
             // РАСЧЕТНЫЕ ЗНАЧЕНИЯ
             for (int i = 0; i < inputData.solverRows.Length; i++)
             {
@@ -154,6 +157,8 @@ namespace SolverFoundation.Controllers
                 item.ChugunProductivityProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionChangeNaturalGas - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption + item.ChugunProductivityBasePeriod);
                 // Содержание S в чугуне в проектном периоде, %
                 item.SeraContentInChugunProjectPeriod = ((item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeSeraIncreaceCokeConsumption + (item.KoefChangeChugunProductionChangeNaturalGas * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) - item.EquivalentCokeReplacementBasePeriod * (item.NaturalGasConsumptionBillingPeriod - item.NaturalGasConsumptionBasePeriod) * item.KoefChangeChugunProductionIncreaseCokeConsumption) * item.KoefChangeSeraIncreaceFurnanceCapacity + item.SeraContentInChugunBasePeriod);
+                test = (0.5 * (item.EquivalentCokeReplacementBasePeriod * inputData.CostOfCoke - inputData.CostOfNaturalGas) + 0.5 * inputData.KoefCounditionallyConstant * (item.KoefChangeChugunProductionChangeNaturalGas - item.EquivalentCokeReplacementBasePeriod * item.KoefChangeChugunProductionIncreaseCokeConsumption)) * item.NaturalGasConsumptionBillingPeriod;
+                summ += test;          
             }
 
             return View(inputData);
